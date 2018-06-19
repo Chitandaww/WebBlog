@@ -70,23 +70,86 @@
     <title>Login</title>
     <style type="text/css">
         *{font-family:宋体}
-        fieldset {width:800px;margin:20px auto;padding:20px;background-color:#FCFCFF;}
-        h1 {text-align: center;}
-        form {font-size: 20px}
+        body{
+           background-image:url(Image/bg1.jpg);
+        }
+        .avtar{
+           margin-top:2em;
+           text-align:center;
+        
+        }
+        fieldset {
+            width:400px;
+            margin:20px auto;
+            padding:20px;
+            background-color:rgb(43,43,54);
+        }
+        h1 {
+            text-align: center;
+            margin-top:100px;
+        }
+        form {
+            font-size: 20px;
+            text-align:center;
+        }
+        input[type="text"] {
+	        padding: 1em 2em 1em 3em;
+	        color: #9199aa;
+	        font-size: 18px;
+	        outline: none;
+	        background: url(Image/adm.png) no-repeat 10px 15px;
+	        border: none;
+	        font-weight: 100;
+	        border-bottom: 1px solid #484856;
+        }
+        input[type="password"]{
+	         padding: 1em 2em 1em 3em;
+	         color: #dd3e3e;
+	         font-size: 18px;
+	         outline: none;
+	         background: url(Image/key.png) no-repeat 10px 23px;
+	         border: none;
+	         font-weight: 100;
+	         border-bottom: 1px solid #484856;
+	         margin-bottom: 3em;
+       }
+        input[type="submit"]{
+             font-size: 20px;
+             color: #fff;
+             outline: none;
+             border: none;
+             background: #3ea751;
+             width: 70%;
+             margin-bottom:20px;
+             padding: 18px 0;
+             border-bottom-left-radius: 15px;
+             -webkit-border-bottom-left-radius: 15px;
+             -moz-border-bottom-left-radius: 15px;
+             -o-border-bottom-left-radius: 15px;
+             border-bottom-right-radius: 15px;
+             -webkit-border-bottom-right-radius: 15px;
+             -moz-border-bottom-right-radius: 15px;
+             -o-border-bottom-right-radius: 15px;
+	         cursor: pointer;
+       }
     </style>
 </head>
 <body>
 <h1> Blog </h1>
-<form action="Login.jsp" method="post">
+	
+    <form action="Login.jsp" method="post">
+    
     <fieldset>
-        <legend>用户登录</legend>
+    <div class="avtar">
+		<img src="Image/avtar.png" />
+	</div>   
         <p>
-            <label for="username">用户名：</label>
+            <label for="username"></label>
             <input id="username" name="username" type="text">
             <span></span>
         </p>
         <p>
-            <label for="password">密码：</label>
+            <label for="password"></label>
             <input id="password" name="password" type="password">
         </p>
         <p>
@@ -95,6 +158,7 @@
         </p>
     </fieldset>
 </form>
+</div>
 </body>
 
 </html>
