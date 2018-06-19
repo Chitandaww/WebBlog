@@ -1,6 +1,57 @@
 <%@ page language="java" import="java.util.*,java.io.*,java.sql.*"
          contentType="text/html; charset=utf-8"%>
 <%request.setCharacterEncoding("utf-8");%>
+<%
+        
+    String msg = "";
+	String[] id = new String[5];
+	String[] time = new String[5];
+	String[] author = new String[5];
+	String[] title = new String[5];
+	String[] content = new String[5];
+	int num = 0;
+    //Connect to database
+    String connectString = "jdbc:mysql://172.18.187.233:53306/proj_user"
+            + "?autoReconnect=true&useUnicode=true"
+            + "&verifyServerCertificate=false&useSSL=false"
+            + "&characterEncoding=UTF-8";
+
+    Class.forName("com.mysql.jdbc.Driver");
+    Connection con=DriverManager.getConnection(connectString,
+            "user", "123");
+    
+    
+    try
+    {
+    	Statement stmt = con.createStatement();
+        String query = "SELECT * FROM b_article ORDER BY time ASC;";
+        ResultSet rs = stmt.executeQuery(query);
+        while(rs.next() && num < 5){
+        	id[num] = rs.getString("id");
+        	time[num] = rs.getString("time");
+        	author[num] = rs.getString("author");
+        	title[num] = rs.getString("title");
+        	content[num] = rs.getString("content");
+        	content[num] = content[num].replaceAll("</?[^>]+>", "");
+        	num = num + 1;
+        }
+        /*try{
+       	 	content = java.net.URLDecoder.decode(content,"UTF-8");
+      	}
+       	catch (UnsupportedEncodingException e) {
+       	 	e.printStackTrace();
+      	}*/
+        stmt.close();
+        con.close();
+    }
+    catch(Exception e)
+    {
+        msg = e.getMessage();
+        out.print(msg);
+    }
+    //response.sendRedirect("/WebBlog/articles/" + time + ".html");
+    
+%>
 
 <!DOCTYPE  html>
 <html lang="zh-cn">
@@ -105,7 +156,12 @@
     		  margin: auto;
     		  margin-bottom:10px; 
         }
-        
+        #content {
+        	max-height: 70px;
+        	overflow: hidden;
+        	white-space:nowrap;
+        	text-overflow:ellipsis;
+        }
 
     </style>
 </head>
@@ -125,59 +181,31 @@
 		        <% } %>
 			</div>
 	    </div>
-	     <div id = "header_image">
-        
-    </div>
+	    <div id = "header_image">
+	
+    	</div>
 	    
     </div>
    
    <div id ="article">
-       <h2 class="title_tj">
+       	<h2 class="title_tj">
            <p>文章<span>推荐</span></p>
         </h2>
         <div class="bloglist left">
-           <div class="text one">
-               <h3>程序员请放下你的技术情节，与你的同伴一起进步</h3>
-               <ul>
-                  <p>如果说掌握一门赖以生计的技术是技术人员要学会的第一课的话， 那么我觉得技术人员要真正学会的第二课，不是技术，而是业务、交流与协作，学会关心其他工作伙伴的工作情况和进展...</p>
-                  <a title="/" href="/" target="_blank" class="readmore">阅读全文>></a>
-               </ul>
-               <p class="dateview"><span>2013-11-04</span><span>作者：杨青</span><span>个人博客：[<a href="/news/life/">程序人生</a>]</span></p>
-            </div>
-            <div class="text two">
-                <h3>程序员请放下你的技术情节，与你的同伴一起进步</h3>
-                <ul>
-                   <p>如果说掌握一门赖以生计的技术是技术人员要学会的第一课的话， 那么我觉得技术人员要真正学会的第二课，不是技术，而是业务、交流与协作，学会关心其他工作伙伴的工作情况和进展...</p>
-                   <a title="/" href="/" target="_blank" class="readmore">阅读全文>></a>
-                </ul>
-                <p class="dateview"><span>2013-11-04</span><span>作者：杨青</span><span>个人博客：[<a href="/news/life/">程序人生</a>]</span></p>
-            </div>
-            <div class="text three">
-                <h3>程序员请放下你的技术情节，与你的同伴一起进步</h3>
-                <ul>
-                    <p>如果说掌握一门赖以生计的技术是技术人员要学会的第一课的话， 那么我觉得技术人员要真正学会的第二课，不是技术，而是业务、交流与协作，学会关心其他工作伙伴的工作情况和进展...</p>
-                    <a title="/" href="/" target="_blank" class="readmore">阅读全文>></a>
-                </ul>
-                <p class="dateview"><span>2013-11-04</span><span>作者：杨青</span><span>个人博客：[<a href="/news/life/">程序人生</a>]</span></p>
-            </div>
-            <div class="text four">
-                <h3>程序员请放下你的技术情节，与你的同伴一起进步</h3>
-                <ul>
-                    <p>如果说掌握一门赖以生计的技术是技术人员要学会的第一课的话， 那么我觉得技术人员要真正学会的第二课，不是技术，而是业务、交流与协作，学会关心其他工作伙伴的工作情况和进展...</p>
-                    <a title="/" href="/" target="_blank" class="readmore">阅读全文>></a>
-                </ul>
-                <p class="dateview"><span>2013-11-04</span><span>作者：杨青</span><span>个人博客：[<a href="/news/life/">程序人生</a>]</span></p>
-            </div>
-            <div class="text five">
-                <h3>程序员请放下你的技术情节，与你的同伴一起进步</h3>
-                <ul>
-                    <p>如果说掌握一门赖以生计的技术是技术人员要学会的第一课的话， 那么我觉得技术人员要真正学会的第二课，不是技术，而是业务、交流与协作，学会关心其他工作伙伴的工作情况和进展...</p>
-                    <a title="/" href="/" target="_blank" class="readmore">阅读全文>></a>
-                </ul>
-                <p class="dateview"><span>2013-11-04</span><span>作者：杨青</span><span>个人博客：[<a href="/news/life/">程序人生</a>]</span></p>
-            </div>
-  </div>
- </div>   
+           
+        	<%
+        		for(int i = 0; i < num; i++){
+        			out.write("<div class='text'>");
+        			out.write("<h3>" + title[i] + "</h3>");
+        			out.write("<ul><div id='content'>" + content[i] + "</div>" 
+        				+ "<a title='/' href='Show.jsp?id=" + id[i] 
+        				+ "' target='_blank' class='readmore'>阅读全文>></a></ul>");
+        			out.write("<p class='dateview'><span>" + time[i]
+        					+ "</span><span>作者：" + author[i] + "</span></p>");
+        		}
+        	%>
+  		</div>
+ 	</div>   
 </body>
 
 </html>
