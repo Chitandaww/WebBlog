@@ -19,26 +19,6 @@
     //Get name and password
     String name = request.getParameter("username");
     String password = request.getParameter("password");
-
-    //Register
-    try
-    {
-        if(request.getParameter("register") != null)
-        {
-            Statement stmt = con.createStatement();
-            String query = "INSERT INTO login_info(name, password)VALUES('" + name + "','" + password + "');";
-            int rs = stmt.executeUpdate(query);
-            if(rs != 0)
-                out.print("注册成功！");
-            stmt.close();
-            con.close();
-        }
-    }
-    catch(Exception e)
-    {
-        msg = e.getMessage();
-        out.print("用户名已存在！");
-    }
     //Login
     try
     {
@@ -91,7 +71,7 @@
         </p>
         <p>
             <input id="login" name="login" type="submit" value="登陆">
-            <input id="register" name="register" type="submit" value="注册">
+            <a href="Register.jsp">注册</a>
         </p>
     </fieldset>
 </form>
