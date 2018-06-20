@@ -213,7 +213,7 @@ String user = (String)session.getAttribute("user");
 	            		<li><HR></li>
 	                    <li><a href="#">我的博客</a></li>
 	                    <li><span>|</span></li>
-	                    <li><a href="#">退出</a></li>
+	                    <li><a href="Exit.jsp">退出</a></li>
                 	</ul>
                 </li>
 	    	</div>

@@ -89,7 +89,9 @@
             width: 130px;
             
         }
-       
+       	#login {
+       		margin-top: 15px;
+       	}
         a {
         	text-decoration: none;
         }
@@ -163,8 +165,10 @@
 	    	<div id="header_right">
 		        <% String user = (String)session.getAttribute("user"); %>
 		        <% if(user == null) { %>
-		            <a href="Login.jsp">登录 </a>
-		            <a href="Login.jsp">注册&nbsp; &nbsp;</a>
+		        	<div id="login">
+			            <a href="Login.jsp">登录 </a>
+			            <a href="Login.jsp">注册&nbsp; &nbsp;</a>
+		            </div>
 		        <% } else { %>
 		            <li>
 		            	<div id="avtar"><img src="Image/avtar.png" /></div>
@@ -175,7 +179,7 @@
 		                    <li><span>|</span></li>
 		                    <li><a href="#">我的博客</a></li>
 		                    <li><span>|</span></li>
-		                    <li><a href="#">退出</a></li>
+		                    <li><a href="Exit.jsp">退出</a></li>
 	                	</ul>
 	                </li>
 		        <% } %>
