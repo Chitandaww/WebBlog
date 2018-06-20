@@ -2,7 +2,7 @@
          contentType="text/html; charset=utf-8"%>
 <%request.setCharacterEncoding("utf-8");%>
 <%
-        
+    String user = (String)session.getAttribute("user");   
     String msg = "";
 	String[] id = new String[5];
 	String[] time = new String[5];
@@ -24,8 +24,9 @@
     try
     {
     	Statement stmt = con.createStatement();
-        String query = "SELECT * FROM b_article ORDER BY time ASC;";
-        ResultSet rs = stmt.executeQuery(query);
+        String fmt = "SELECT * FROM b_article where author = '%s' ORDER BY time ASC;";
+        String sql = String.format(fmt, user);
+        ResultSet rs = stmt.executeQuery(sql);
         while(rs.next() && num < 5){
         	id[num] = rs.getString("id");
         	time[num] = rs.getString("time");
@@ -52,6 +53,9 @@
     //response.sendRedirect("/WebBlog/articles/" + time + ".html");
     
 %>
+
+
+
 
 <!DOCTYPE  html>
 <html lang="zh-cn">
@@ -84,10 +88,9 @@
         #header_right {
             float: right;
             width: 130px;
+            
         }
-       	#login {
-       		margin-top: 15px;
-       	}
+       
         a {
         	text-decoration: none;
         }
@@ -150,7 +153,24 @@
              color: #fff;
              padding: 5px 10px; 
              float: right; 
-             margin: 20px 0 0 0 
+             margin: 20px 0 0 0 ;
+             margin-left:20px;
+        }
+        a.delete{
+             background: #fd8a61; 
+             color: #fff;
+             padding: 5px 10px; 
+             float: right; 
+             margin: 20px 0 0 0;
+             margin-left:10px;
+        }
+        a.write{
+             background: #fd8a61; 
+             color: #fff;
+             padding: 5px 10px; 
+             float: right; 
+             margin: 20px 0 0 0;
+             margin-left:10px;
         }
         .text{
               border:1px solid rgb(244,244,244);
@@ -207,13 +227,7 @@
 	    		<img src="Image/Blog_48px.png" alt="博客" title="博客" />
 	    	</div>
 	    	<div id="header_right">
-		        <% String user = (String)session.getAttribute("user"); %>
-		        <% if(user == null) { %>
-		        	<div id="login">
-		            	<a href="Login.jsp">登录 </a>
-		            	<a href="Register.jsp">注册&nbsp; &nbsp;</a>
-		            </div>
-		        <% } else { %>
+		        
 		            <li>
 		            	<div id="avtar"><img src="Image/avtar.png" /></div>
 		            	<ul class="subnav">
@@ -221,16 +235,11 @@
 		            		<li><HR></li>
 		                    <li><a href="Write.jsp">写博客</a></li>
 		                    <li><span>|</span></li>
-		                    <li><a href="MyBlog.jsp">我的博客</a></li>
+		                 
 		                    <li><span>|</span></li>
-
-	
-
-		                    <li><a href="Exit.jsp">退出</a></li>
-
+		                    <li><a href="Exit.jsp" >退出</a></li>
 	                	</ul>
 	                </li>
-		        <% } %>
 					
 			</div>
 	    </div>
@@ -250,11 +259,14 @@
         		for(int i = 0; i < num; i++){
         			out.write("<div class='text'>");
         			out.write("<h3>" + title[i] + "</h3>");
+        			
         			out.write("<ul><div id='content'>" + content[i] + "</div>" 
-        				+ "<a title='/' href='Show.jsp?id=" + id[i] 
+        				+"<a href='#' class='delete'>删除</a>"+"<a href='#' class='write'>编辑</a>"+"<a title='/' href='Show.jsp?id=" + id[i] 
         				+ "' target='_blank' class='readmore'>阅读全文>></a></ul>");
+        			
         			out.write("<p class='dateview'><span>" + time[i]
         					+ "</span><span>作者：" + author[i] + "</span></p>");
+        			
         		}
         	%>
   		</div>
