@@ -52,12 +52,57 @@
 <head>
 	<meta charset="utf-8">
 	<title>Profile</title>
-	<style></style>
+	<style>
+	 body{
+           background-image:url(Image/bg1.jpg);
+        }
+        h1{
+           text-align:center;
+        }
+         form {
+            width:400px;
+            margin:20px auto;
+            padding:20px;
+            text-align:center;
+            background-color:rgb(43,43,54);
+        }
+         span{
+            font-size:18px;
+            color:white;
+        }
+         input[type="password"]{
+	         padding: 1em 2em 1em 3em;
+	         color: #dd3e3e;
+	         font-size: 18px;
+	         outline: none;
+	         background:no-repeat 10px 23px;
+	         border: none;
+	         font-weight: 100;
+	         border-bottom: 1px solid #484856;
+	      
+       }
+       input[type="submit"]{
+             font-size: 20px;
+             color: #fff;
+             outline: none;
+             border: none;
+             background: #3ea751;
+             width: 60px;
+             margin-bottom:20px;
+             margin-top:20px;
+	         cursor: pointer;
+	         
+       }
+        a{
+             color:white;
+            
+       }
+	</style>
 </head>
 <body>
 	<h1>修改密码</h1>
 	<form method="post" id="pwdForm">
-		<p>输入原密码：<input type="password" name="oriPwd" id="oriPwd">
+		<p><span>输入原密码：</span><input type="password" name="oriPwd" id="oriPwd">
 		<%
 			if(wrongPwd)
 			{
@@ -65,8 +110,8 @@
 			}
 		%>
 		</p>
-		<p>输入新密码：<input type="password" name="newPwd" id="newPwd"></p>
-		<p>确认新密码：<input type="password" name="confPwd" id="confPwd">
+		<p><span>输入新密码：</span><input type="password" name="newPwd" id="newPwd"></p>
+		<p><span>确认新密码：</span><input type="password" name="confPwd" id="confPwd">
 		<%
 			if(wrongConf)
 			{

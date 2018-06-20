@@ -49,12 +49,58 @@
 <head>
 	<meta charset="utf-8">
 	<title>Profile</title>
-	<style></style>
+	<style>
+	   *{font-family:宋体}
+	    body{
+           background-image:url(Image/bg1.jpg);
+        }
+        h1{
+           text-align:center;
+        }
+         form {
+            width:400px;
+            margin:20px auto;
+            padding:20px;
+            text-align:center;
+            background-color:rgb(43,43,54);
+        }
+        input[type="text"] {
+	        padding: 1em 2em 1em 3em;
+	        color: #9199aa;
+	        font-size: 18px;
+	        outline: none;
+	        background:no-repeat 10px 15px;
+	        border: none;
+	        font-weight: 100;
+	        border-bottom: 1px solid #484856;
+        }
+        span{
+            font-size:18px;
+            color:white;
+        }
+         input[type="submit"]{
+             font-size: 20px;
+             color: #fff;
+             outline: none;
+             border: none;
+             background: #3ea751;
+             width: 60px;
+             margin-bottom:20px;
+             margin-top:20px;
+	         cursor: pointer;
+	       
+       }
+       a{
+             color:white;
+            
+       }
+        
+	</style>
 </head>
 <body>
 	<h1>个人资料</h1>
 	<form method="post">
-		<p>用户名：<input type="text" name="username" id="username" value=<%=name %>>
+		<p><span>用户名：</span><input type="text" name="username" id="username" value=<%=name %>>
 			<%
 				if(isExist)
 				{
@@ -62,7 +108,8 @@
 				}
 			%>
 		</p>
-		<p><input type="submit" name="submit" id="submit" value="保存">&nbsp;&nbsp;<a href="ChangePwd.jsp?name=<%=name%>">修改密码</a>&nbsp;&nbsp;<a href="index.jsp">返回</a></p>
+		<p><input type="submit" name="submit" id="submit" value="保存"></p>
+		<p><a href="ChangePwd.jsp?name=<%=name%>">修改密码</a>&nbsp;&nbsp;<a href="index.jsp">返回</a></p>
 	</form>
 </body>
 </html>

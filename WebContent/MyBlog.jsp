@@ -238,7 +238,7 @@
 		            		<li><HR></li>
 		                    <li><a href="Write.jsp">写博客</a></li>
 		                    <li><span>|</span></li>
-		                 
+		                 <li><a href="Profile.jsp?name=<%=user%>">个人资料</a></li>
 		                    <li><span>|</span></li>
 		                    <li><a href="Exit.jsp" >退出</a></li>
 	                	</ul>
