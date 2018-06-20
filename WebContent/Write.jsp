@@ -5,11 +5,52 @@
 <%request.setCharacterEncoding("utf-8");%>
 <%
 	String user = (String)session.getAttribute("user");
+	String msg1 = "";
+	String edit_content = "";
+	String edit_title = "";
+	String edit_time = "";
+	String edit_author = "";
 	if(user == null) {
 	    response.sendRedirect("Login.jsp");
 	}
-	if(request.getParameter("id") == null || request.getParameter("id") == ""){
-		response.sendRedirect("index.jsp");
+	if(request.getParameter("id") != null && request.getParameter("id") != ""){
+		int id = Integer.parseInt(request.getParameter("id"));
+		edit_content = "";
+	    //Connect to database
+	    String connectString = "jdbc:mysql://172.18.187.233:53306/proj_user"
+	            + "?autoReconnect=true&useUnicode=true"
+	            + "&verifyServerCertificate=false&useSSL=false"
+	            + "&characterEncoding=UTF-8";
+	
+	    Class.forName("com.mysql.jdbc.Driver");
+	    Connection con=DriverManager.getConnection(connectString,
+	            "user", "123");
+	    
+	    
+	    try
+	    {
+	    	Statement stmt = con.createStatement();
+	        String query = "SELECT * FROM b_article WHERE id=" + id + ";";
+	        ResultSet rs = stmt.executeQuery(query);
+	        rs.next();
+	        edit_content = rs.getString("content");
+	        edit_title = rs.getString("title");
+	        edit_time = rs.getString("time");
+	        edit_author = rs.getString("author");
+	        /*try{
+	       	 	content = java.net.URLDecoder.decode(content,"UTF-8");
+	      	}
+	       	catch (UnsupportedEncodingException e) {
+	       	 	e.printStackTrace();
+	      	}*/
+	        stmt.close();
+	        con.close();
+	    }
+	    catch(Exception e)
+	    {
+	        msg1 = e.getMessage();
+	        out.print(msg1);
+	    }
 	}
     if(request.getParameter("submit") != null) {
     	
@@ -24,7 +65,7 @@
         	 e.printStackTrace();
        	}*/
         
-        String msg = "";
+        String msg2 = "";
         String id = "";
         //Connect to database
         String connectString = "jdbc:mysql://172.18.187.233:53306/proj_user"
@@ -56,8 +97,8 @@
         }
         catch(Exception e)
         {
-            msg = e.getMessage();
-            out.print(msg);
+            msg2 = e.getMessage();
+            out.print(msg2);
         }
         response.sendRedirect("Show.jsp?id="+id);
     }
@@ -205,8 +246,7 @@
 	<div id="header_outer">
 	    <div id="header">
 			<div id="header_left">
-	    		<img src="Image/Blog_48px.png" alt="博客" title="博客" />
-	    		
+	    		<a href="index.jsp"><img src="Image/Blog_48px.png" alt="博客" title="博客" /></a>
 	    	</div>
 	    	<div id="header_right">
 	    		<li>
@@ -214,7 +254,7 @@
 	            	<ul class="subnav">
 	            		<li><%=user%></li>
 	            		<li><HR></li>
-	                    <li><a href="#">我的博客</a></li>
+	                    <li><a href="MyBlog.jsp">我的博客</a></li>
 	                    <li><span>|</span></li>
 	                    <li><a href="Exit.jsp">退出</a></li>
                 	</ul>
@@ -224,37 +264,40 @@
 	</div>
     <div id="container">
         <div>
-           <input type="text" id="title" name="title" placeholder="请输入博客标题。">
+           <input type="text" id="title" name="title" placeholder="请输入博客标题。" value="<%=edit_title%>">
         </div>
         <div class="editor" id="myeditor">
            	<div class="editor" id="toolbar">
-           		<input name="undo" type="image" src="Image/undo_24px.png" alt="撤销" onclick="undo()"/>
-           		<input name="redo" type="image" src="Image/redo_24px.png" alt="恢复" onclick="redo()"/>
+           		<input name="undo" type="image" src="Image/undo_24px.png" title="撤销" onclick="undo()"/>
+           		<input name="redo" type="image" src="Image/redo_24px.png" title="恢复" onclick="redo()"/>
            		<img id="sp" src="Image/sp.ico" />
-           		<input name="bold" type="image" src="Image/bold_24px.png" alt="加粗" onclick="bold()"/>
-           		<input name="ul" type="image" src="Image/underline_24px.png" alt="下划线" onclick="ul()"/>
-           		<input name="italic" type="image" src="Image/Italic_24px.png" alt="斜体" onclick="italic()"/>
+           		<input name="bold" type="image" src="Image/bold_24px.png" title="加粗" onclick="bold()"/>
+           		<input name="ul" type="image" src="Image/underline_24px.png" title="下划线" onclick="ul()"/>
+           		<input name="italic" type="image" src="Image/Italic_24px.png" title="斜体" onclick="italic()"/>
            		<img id="sp" src="Image/sp.ico" />
            		<img id="color" src="">
-           		<select name="fontcolor" id="fcolor" onchange="fcolor()">
+           		<select name="fontcolor" id="fcolor" title="字体颜色" onchange="fcolor()">
            			<option value="black" >黑色</option>
            			<option value="red" >红色</option>
            			<option value="green" >绿色</option>
            			<option value="blue" >蓝色</option>
            			<option value="yellow" >黄色</option>
            		</select>
-           		<input name="H1" type="image" src="Image/H1_24px.png" alt="H1" onclick="H1()"/>
-           		<input name="H2" type="image" src="Image/H2_24px.png" alt="H2" onclick="H2()"/>
-           		<input name="H3" type="image" src="Image/H3_24px.png" alt="H3" onclick="H3()"/>
-           		<input name="pgh" type="image" src="Image/paragraph_24px.png" alt="段落" onclick="pgh()"/>
-           		<input name="ulist" type="image" src="Image/ulist_24px.png" alt="无序列表" onclick="ulist()"/>
-           		<input name="olist" type="image" src="Image/olist_24px.png" alt="有序列表" onclick="olist()"/>
-           		<input name="addlink" type="image" src="Image/link_24px.png" alt="添加链接" onclick="addlink()"/>
-           		<input name="addimg" type="image" src="Image/img_24px.png" alt="添加图片" onclick="addimg()"/>
+           		<img id="sp" src="Image/sp.ico" />
+           		<input name="H1" type="image" src="Image/H1_24px.png" title="H1" onclick="H1()"/>
+           		<input name="H2" type="image" src="Image/H2_24px.png" title="H2" onclick="H2()"/>
+           		<input name="H3" type="image" src="Image/H3_24px.png" title="H3" onclick="H3()"/>
+           		<input name="pgh" type="image" src="Image/paragraph_24px.png" title="段落" onclick="pgh()"/>
+           		<img id="sp" src="Image/sp.ico" />
+           		<input name="ulist" type="image" src="Image/ulist_24px.png" title="无序列表" onclick="ulist()"/>
+           		<input name="olist" type="image" src="Image/olist_24px.png" title="有序列表" onclick="olist()"/>
+           		<img id="sp" src="Image/sp.ico" />
+           		<input name="addlink" type="image" src="Image/link_24px.png" title="添加链接" onclick="addlink()"/>
+           		<input name="addimg" type="image" src="Image/img_24px.png" title="添加图片" onclick="addimg()"/>
            	</div>
            	<input name="imgfile" id="imgfile" type="file">
             <div class="editor" id="richedit" contenteditable="true">
-            	
+            	<%=edit_content%>
             </div><br>
 	    </div>
 		<form name="write" action="Write.jsp" method="post">
@@ -275,7 +318,7 @@
 	submitBtn.onclick = function(event){
 		  if(title.value == ""){
 			  alert("请输入博客标题!");
-			  //var o = document.getElementById("richedit").innerHTML;
+			  //var o = document.getElementById("richedit");
 			  //alert(o.innerHTML);
 			  return false;
 		  }
@@ -351,7 +394,7 @@
 		document.execCommand("insertorderedlist");
 	}
 	function addlink(){
-		var l = prompt("请输入指向的网址链接。","");
+		var l = prompt("请输入指向的网址链接。", "");
 		if(l != null && l != ""){
 			if(l.startsWith("http://") == false){
 				l = "http://" + l;
