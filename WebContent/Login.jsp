@@ -99,7 +99,7 @@
              outline: none;
              border: none;
              background: #3ea751;
-             width: 70%;
+             width: 100%;
              margin-bottom:20px;
              padding: 18px 0;
              border-bottom-left-radius: 15px;
@@ -112,6 +112,7 @@
              -o-border-bottom-right-radius: 15px;
 	         cursor: pointer;
        }
+      
     </style>
 </head>
 <body>
