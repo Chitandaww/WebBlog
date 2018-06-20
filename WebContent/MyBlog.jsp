@@ -153,7 +153,24 @@
              color: #fff;
              padding: 5px 10px; 
              float: right; 
-             margin: 20px 0 0 0 
+             margin: 20px 0 0 0 ;
+             margin-left:20px;
+        }
+        a.delete{
+             background: #fd8a61; 
+             color: #fff;
+             padding: 5px 10px; 
+             float: right; 
+             margin: 20px 0 0 0;
+             margin-left:10px;
+        }
+        a.write{
+             background: #fd8a61; 
+             color: #fff;
+             padding: 5px 10px; 
+             float: right; 
+             margin: 20px 0 0 0;
+             margin-left:10px;
         }
         .text{
               border:1px solid rgb(244,244,244);
@@ -202,11 +219,6 @@
         	margin: auto;
         }
     </style>
-    <script type="text/javascript">
-       function loginout(){  
-    	   session.invalidate(); 
-       }
-    </script>
 </head>
 <body>
 	<div id="header_outer">
@@ -225,7 +237,7 @@
 		                    <li><span>|</span></li>
 		                 
 		                    <li><span>|</span></li>
-		                    <li><a href="index.jsp" onclick="loginout()">退出</a></li>
+		                    <li><a href="Exit.jsp" >退出</a></li>
 	                	</ul>
 	                </li>
 					
@@ -247,11 +259,14 @@
         		for(int i = 0; i < num; i++){
         			out.write("<div class='text'>");
         			out.write("<h3>" + title[i] + "</h3>");
+        			
         			out.write("<ul><div id='content'>" + content[i] + "</div>" 
-        				+ "<a title='/' href='Show.jsp?id=" + id[i] 
+        				+"<a href='#' class='delete'>删除</a>"+"<a href='#' class='write'>编辑</a>"+"<a title='/' href='Show.jsp?id=" + id[i] 
         				+ "' target='_blank' class='readmore'>阅读全文>></a></ul>");
+        			
         			out.write("<p class='dateview'><span>" + time[i]
         					+ "</span><span>作者：" + author[i] + "</span></p>");
+        			
         		}
         	%>
   		</div>
