@@ -204,7 +204,7 @@
 	<div id="header_outer">
 	    <div id="header">
 	    	<div id="header_left">
-	    		<img src="Image/Blog_48px.png" alt="博客" title="博客" />
+	    		<a href="index.jsp"><img src="Image/Blog_48px.png" alt="博客" title="博客" /></a>
 	    	</div>
 	    	<div id="header_right">
 		        <% String user = (String)session.getAttribute("user"); %>
@@ -251,7 +251,7 @@
         			out.write("<div class='text'>");
         			out.write("<h3>" + title[i] + "</h3>");
         			out.write("<ul><div id='content'>" + content[i] + "</div>" 
-        				+ "<a title='/' href='Show.jsp?id=" + id[i] 
+        				+ "<a title='阅读全文' href='Show.jsp?id=" + id[i] 
         				+ "' target='_blank' class='readmore'>阅读全文>></a></ul>");
         			out.write("<p class='dateview'><span>" + time[i]
         					+ "</span><span>作者：" + author[i] + "</span></p>");

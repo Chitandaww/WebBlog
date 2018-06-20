@@ -160,7 +160,7 @@
 	<div id="header_outer">
 	    <div id="header">
 	    	<div id="header_left">
-	    		<img src="Image/Blog_48px.png" alt="博客" title="博客" />
+	    		<a href="index.jsp"><img src="Image/Blog_48px.png" alt="博客" title="博客" /></a>
 	    	</div>
 	    	<div id="header_right">
 		        <% String user = (String)session.getAttribute("user"); %>
