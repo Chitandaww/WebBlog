@@ -155,7 +155,7 @@
 		{
 			if(pwd1.value != pwd2.value)
 			{
-				alert("两次密码输入不同！")	
+				alert("两次密码输入不一致！")	
 			}
 			else
 			{
