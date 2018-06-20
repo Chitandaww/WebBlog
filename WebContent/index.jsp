@@ -211,7 +211,7 @@
 		        <% if(user == null) { %>
 		        	<div id="login">
 		            	<a href="Login.jsp">登录 </a>
-		            	<a href="Login.jsp">注册&nbsp; &nbsp;</a>
+		            	<a href="Register.jsp">注册&nbsp; &nbsp;</a>
 		            </div>
 		        <% } else { %>
 		            <li>

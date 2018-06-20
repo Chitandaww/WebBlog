@@ -47,6 +47,7 @@
 <html lang="zh-cn">
 <head>
 	<meta charset="utf-8">
+	<link rel="shortcut icon" href="Image/Blog_64px.png" />
     <title>Register</title>
     <style>
     	*{font-family:宋体}
@@ -113,12 +114,13 @@
              -o-border-bottom-right-radius: 15px;
 	         cursor: pointer;
        }
+       
        .ps{
              padding-left:20px;
        }
        .dps{
              margin-top:20px;
-             float:left;
+             float: left;
        }
        
     </style>
