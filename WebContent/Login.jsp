@@ -7,6 +7,10 @@
         response.sendRedirect("index.jsp");
     }
     String msg = "";
+    boolean isWrong = false;
+    String name = request.getParameter("name");
+    if(name == null)
+    	name = "";
     //Connect to database
     String connectString = "jdbc:mysql://172.18.187.233:53306/proj_user"
             + "?autoReconnect=true&useUnicode=true"
@@ -16,21 +20,20 @@
     Class.forName("com.mysql.jdbc.Driver");
     Connection con=DriverManager.getConnection(connectString,
             "user", "123");
-    //Get name and password
-    String name = request.getParameter("username");
-    String password = request.getParameter("password");
     //Login
     try
     {
         if(request.getParameter("login") != null)
         {
+        	//Get name and password
+            name = request.getParameter("username");
+            String password = request.getParameter("password");
             Statement stmt = con.createStatement();
             String query = "SELECT* FROM login_info WHERE name='" + name + "' AND password='" + password + "';";
             ResultSet rs = stmt.executeQuery(query);
             if(!rs.next())
-                out.print("用户名或密码错误！");
+                isWrong = true;
             else {
-                out.print("登陆成功！");
                 session.setAttribute("user", name);
                 response.sendRedirect("index.jsp");
             }
@@ -127,13 +130,25 @@
 	</div>   
         <p>
             <label for="username"></label>
-            <input id="username" name="username" type="text">
+            <input id="username" name="username" type="text" value=<%=name %>>
             <span></span>
         </p>
         <p>
             <label for="password"></label>
             <input id="password" name="password" type="password">
         </p>
+        
+        <%
+        	if(isWrong)
+        	{
+        		%><p style="color: white">用户名或密码错误</p><%
+        	}
+        	else
+        	{
+        		%><p style="visibility: hidden">123</p><%
+        	}
+        %>
+        
         <p>
             <input id="login" name="login" type="submit" value="登陆">
             <a href="Register.jsp">注册</a>
