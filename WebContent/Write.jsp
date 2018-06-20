@@ -76,7 +76,7 @@ String user = (String)session.getAttribute("user");
     		padding: 0;
     		width: 100%;
     		height: 50px;
-    		background: #33669933;
+    		background: #d6e0eb;
     	}
     	#header {
     		width: 900px;
@@ -87,9 +87,11 @@ String user = (String)session.getAttribute("user");
     	}
     	#header_right {
     		float: right;
+    		width: 130px;
     	}
     	#title {
-    		width: 900px;
+    		width: 700px;
+    		height: 30px;
     		margin: 10px auto;
     	}
         #container {
@@ -98,7 +100,7 @@ String user = (String)session.getAttribute("user");
         }
         #myeditor {
         	width: 900px;
-        	margin: 10px auto;
+        	margin: 20px auto;
         }
         #toolbar {
         	width: 900px;
@@ -127,12 +129,71 @@ String user = (String)session.getAttribute("user");
         }
         #richedit {
         	width: 900px;
-        	height: 500px;
+        	height: 700px;
         	border: solid 2px gray;
         	margin: 10px auto;
+        	overflow: auto;
         }
         textarea, #title_cp {
         	display: none;
+        }
+        #btn {
+        	width: 170px;
+        	margin: 0 auto;
+        }
+        #submit {
+        	font-size: 20px;
+             color: #87CEFA;
+             outline: none;
+             border: 2px solid #87CEFA;
+             background: #fff;
+             width: 170px;
+             margin-bottom:10px;
+             padding: 18px 0;
+             border-radius: 15px;
+	         cursor: pointer;
+        }
+        #submit:hover {
+        	color: #fff;
+        	background: #87CEFA;
+        }
+        li {
+			list-style-type:none;
+			margin: 0px;
+			padding: 0px;
+		}
+		#header_right>li {
+			width:130px;
+			text-align: center;
+			position: relative;
+		}
+		#header_right>li:hover .subnav{
+            display: block;
+            z-index:0;
+        }
+		.subnav {
+			width:130px;
+			position: absolute;
+			top: 30px;
+			padding: 10px 0;
+			background: #d6e0eb;
+			display: none;
+			
+		}
+		.subnav>li {
+			line-height: 30px;
+		}
+		.subnav span{
+            display: none;
+        }
+        a {
+        	text-decoration: none;
+        }
+        #avtar, #avtar>img {
+        	width: 48px;
+        	height: 48px;
+        	border-radius: 24px;
+        	margin: auto;
         }
     </style>
 </head>
@@ -145,7 +206,16 @@ String user = (String)session.getAttribute("user");
 	    		
 	    	</div>
 	    	<div id="header_right">
-	    		<a href="index.jsp"></a>
+	    		<li>
+	            	<div id="avtar"><img src="Image/avtar.png" /></div>
+	            	<ul class="subnav">
+	            		<li><%=user%></li>
+	            		<li><HR></li>
+	                    <li><a href="#">我的博客</a></li>
+	                    <li><span>|</span></li>
+	                    <li><a href="#">退出</a></li>
+                	</ul>
+                </li>
 	    	</div>
 	    </div>
 	</div>
@@ -188,7 +258,9 @@ String user = (String)session.getAttribute("user");
             <div>
             	<input name="title" id="title_cp" type="text">
             	<textarea name="content" id="content"></textarea>
-                <input name="submit" id="submit" type="submit" value="发表博客" >
+                <p id="btn">
+                	<input name="submit" id="submit" type="submit" value="发布博客" alt="发布博客" >
+                </p>
             </div>
         </form>
     </div>

@@ -83,9 +83,10 @@
     	}
         #header_right {
             float: right;
-            height: 50px;
-            padding: 13px;
+            width: 130px;
+            
         }
+       
         a {
         	text-decoration: none;
         }
@@ -162,7 +163,40 @@
         	white-space:nowrap;
         	text-overflow:ellipsis;
         }
-
+		li {
+			list-style-type:none;
+			margin: 0px;
+			padding: 0px;
+		}
+		
+		#header_right>li {
+			width:130px;
+			text-align: center;
+			position: relative;
+			
+		}
+		#header_right>li:hover .subnav{
+            display: block;
+        }
+		.subnav {
+			width:130px;
+			position: absolute;
+			top: 20px;
+			padding: 10px 0;
+			display: none;
+		}
+		.subnav>li {
+			line-height: 30px;
+		}
+		.subnav span{
+            display: none;
+        }
+        #avtar, #avtar>img {
+        	width: 48px;
+        	height: 48px;
+        	border-radius: 24px;
+        	margin: auto;
+        }
     </style>
 </head>
 <body>
@@ -177,8 +211,20 @@
 		            <a href="Login.jsp">登录 </a>
 		            <a href="Login.jsp">注册&nbsp; &nbsp;</a>
 		        <% } else { %>
-		            <a href="index.jsp"><%=user%></a>
+		            <li>
+		            	<div id="avtar"><img src="Image/avtar.png" /></div>
+		            	<ul class="subnav">
+		            		<li><%=user%></li>
+		            		<li><HR></li>
+		                    <li><a href="Write.jsp">写博客</a></li>
+		                    <li><span>|</span></li>
+		                    <li><a href="#">我的博客</a></li>
+		                    <li><span>|</span></li>
+		                    <li><a href="#">退出</a></li>
+	                	</ul>
+	                </li>
 		        <% } %>
+					
 			</div>
 	    </div>
 	    <div id = "header_image">

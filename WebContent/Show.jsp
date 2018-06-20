@@ -6,40 +6,46 @@
 <%
         
     String msg = "";
-	int id = Integer.parseInt(request.getParameter("id"));
 	String content = "";
-    //Connect to database
-    String connectString = "jdbc:mysql://172.18.187.233:53306/proj_user"
-            + "?autoReconnect=true&useUnicode=true"
-            + "&verifyServerCertificate=false&useSSL=false"
-            + "&characterEncoding=UTF-8";
-
-    Class.forName("com.mysql.jdbc.Driver");
-    Connection con=DriverManager.getConnection(connectString,
-            "user", "123");
-    
-    
-    try
-    {
-    	Statement stmt = con.createStatement();
-        String query = "SELECT * FROM b_article WHERE id=" + id + ";";
-        ResultSet rs = stmt.executeQuery(query);
-        rs.next();
-        content = rs.getString("content");
-        /*try{
-       	 	content = java.net.URLDecoder.decode(content,"UTF-8");
-      	}
-       	catch (UnsupportedEncodingException e) {
-       	 	e.printStackTrace();
-      	}*/
-        stmt.close();
-        con.close();
-    }
-    catch(Exception e)
-    {
-        msg = e.getMessage();
-        out.print(msg);
-    }
+	if(request.getParameter("id") == null || request.getParameter("id") == ""){
+		response.sendRedirect("index.jsp");
+	}
+	else{
+		int id = Integer.parseInt(request.getParameter("id"));
+		content = "";
+	    //Connect to database
+	    String connectString = "jdbc:mysql://172.18.187.233:53306/proj_user"
+	            + "?autoReconnect=true&useUnicode=true"
+	            + "&verifyServerCertificate=false&useSSL=false"
+	            + "&characterEncoding=UTF-8";
+	
+	    Class.forName("com.mysql.jdbc.Driver");
+	    Connection con=DriverManager.getConnection(connectString,
+	            "user", "123");
+	    
+	    
+	    try
+	    {
+	    	Statement stmt = con.createStatement();
+	        String query = "SELECT * FROM b_article WHERE id=" + id + ";";
+	        ResultSet rs = stmt.executeQuery(query);
+	        rs.next();
+	        content = rs.getString("content");
+	        /*try{
+	       	 	content = java.net.URLDecoder.decode(content,"UTF-8");
+	      	}
+	       	catch (UnsupportedEncodingException e) {
+	       	 	e.printStackTrace();
+	      	}*/
+	        stmt.close();
+	        con.close();
+	    }
+	    catch(Exception e)
+	    {
+	        msg = e.getMessage();
+	        out.print(msg);
+	    }
+	}
     //response.sendRedirect("/WebBlog/articles/" + time + ".html");
     
 %>

@@ -34,6 +34,7 @@
 		{
 			String ins = "INSERT INTO login_info(name, password)VALUES('" + name + "','" + pwd + "');";
 			int temp = stmt.executeUpdate(ins);
+			session.setAttribute("user", name);
 			response.sendRedirect("RegistSuccess.html");
 		}
 		stmt.close();
@@ -55,7 +56,6 @@
         .avtar{
            margin-top:2em;
            text-align:center;
-        
         }
         fieldset {
             width:400px;
