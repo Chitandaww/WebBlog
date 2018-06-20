@@ -264,7 +264,7 @@
         			out.write("<h3>" + title[i] + "</h3>");
         			
         			out.write("<ul><div id='content'>" + content[i] + "</div>" 
-        				+"<a href='Delete.jsp?id=" + id[i] + "' class='delete'>删除</a>"+"<a href='Write.jsp?id="+ id[i] + "' class='write'>编辑</a>"+"<a title='/' href='Show.jsp?id=" + id[i] 
+        				+"<a href='Delete.jsp?id=" + id[i] + "' class='delete'>删除</a>"+"<a href='Write.jsp?id="+ id[i] + "' class='write'>编辑</a>"+"<a title='阅读全文' href='Show.jsp?id=" + id[i] 
         				+ "' target='_blank' class='readmore'>阅读全文>></a></ul>");
         			
         			out.write("<p class='dateview'><span>" + time[i]

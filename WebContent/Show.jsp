@@ -10,6 +10,8 @@
 	String title = "";
 	String time = "";
 	String author = "";
+	String filename = "";
+
 	if(request.getParameter("id") == null || request.getParameter("id") == ""){
 		response.sendRedirect("index.jsp");
 	}
@@ -37,6 +39,8 @@
 	        title = rs.getString("title");
 	        time = rs.getString("time");
 	        author = rs.getString("author");
+	        filename = rs.getString("filename");
+	         
 	        /*try{
 	       	 	content = java.net.URLDecoder.decode(content,"UTF-8");
 	      	}
@@ -117,6 +121,7 @@
     		background: #fff5;
     		padding: 30px;
     		border-radius: 40px;
+    		position: relative;
         }
  
         li {
@@ -153,6 +158,11 @@
         	border-radius: 24px;
         	margin: auto;
         }
+        #filelink {
+        	position: absolute;
+        	top: 50px;
+        	right: -200px;
+        }
     </style>
 </head>
 
@@ -177,7 +187,7 @@
 		            		<li><HR></li>
 		                    <li><a href="Write.jsp">写博客</a></li>
 		                    <li><span>|</span></li>
-		                    <li><a href="#">我的博客</a></li>
+		                    <li><a href="MyBlog.jsp">我的博客</a></li>
 		                    <li><span>|</span></li>
 		                    <li><a href="Exit.jsp">退出</a></li>
 	                	</ul>
@@ -194,7 +204,36 @@
     </div>
 	<div id ="article">
        	<%=content%>
+       	<div id="filelink">
+ 		<%if(filename != null && filename != ""){ %>
+       		附加文件：<br><a id="flink" href="UploadFile/<%=filename%>" onclick="return getURL(this.href)"><%=filename%></a>
+       		<script language= "javascript">
+			function getURL(url) {
+			        var xmlhttp;
+			        if (window.XMLHttpRequest) {
+			        	xmlhttp=new XMLHttpRequest();
+			        	}else {// code for IE6, IE5
+			        	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			        	}
+			        xmlhttp.open("GET", url, false);
+			        xmlhttp.send();
+			        if(xmlhttp.readyState==4) {
+			        	if (xmlhttp.status >= 200 && xmlhttp.status < 300
+			        			|| xmlhttp.status == 304){
+			        		return true;
+			        	} 
+			        	else{
+			        		alert("文件失效");
+			        		return false;
+			        	} 	
+			        }     
+			}
+			</script>
+
+       	<%}%>
+ 	</div>
  	</div> 
+ 	
 </body>
 
 

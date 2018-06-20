@@ -2,6 +2,10 @@
          contentType="text/html; charset=utf-8"%>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="org.apache.commons.io.*"%>
+<%@ page import="org.apache.commons.fileupload.*"%>
+<%@ page import="org.apache.commons.fileupload.disk.*"%>
+<%@ page import="org.apache.commons.fileupload.servlet.*"%>
 <%request.setCharacterEncoding("utf-8");%>
 <%
 	String user = (String)session.getAttribute("user");
@@ -10,11 +14,12 @@
 	String edit_title = "";
 	String edit_time = "";
 	String edit_author = "";
+	int edit_id = -1;
 	if(user == null) {
 	    response.sendRedirect("Login.jsp");
 	}
 	if(request.getParameter("id") != null && request.getParameter("id") != ""){
-		int id = Integer.parseInt(request.getParameter("id"));
+		edit_id = Integer.parseInt(request.getParameter("id"));
 		edit_content = "";
 	    //Connect to database
 	    String connectString = "jdbc:mysql://172.18.187.233:53306/proj_user"
@@ -30,19 +35,14 @@
 	    try
 	    {
 	    	Statement stmt = con.createStatement();
-	        String query = "SELECT * FROM b_article WHERE id=" + id + ";";
+	        String query = "SELECT * FROM b_article WHERE id=" + edit_id + ";";
 	        ResultSet rs = stmt.executeQuery(query);
 	        rs.next();
 	        edit_content = rs.getString("content");
 	        edit_title = rs.getString("title");
 	        edit_time = rs.getString("time");
 	        edit_author = rs.getString("author");
-	        /*try{
-	       	 	content = java.net.URLDecoder.decode(content,"UTF-8");
-	      	}
-	       	catch (UnsupportedEncodingException e) {
-	       	 	e.printStackTrace();
-	      	}*/
+	        
 	        stmt.close();
 	        con.close();
 	    }
@@ -52,18 +52,14 @@
 	        out.print(msg1);
 	    }
 	}
-    if(request.getParameter("submit") != null) {
-    	
-    	String title = request.getParameter("title");
-    	
-        String content = request.getParameter("content");
+    if(request.getMethod().equalsIgnoreCase("post")) {
+    	String title = "";
+
+        String content = "";
         
-        /*try{
-        	 content = java.net.URLEncoder.encode(content,"UTF-8");
-       	}
-        catch (UnsupportedEncodingException e) {
-        	 e.printStackTrace();
-       	}*/
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        String fName = "";
+        String fileName = "";
         
         String msg2 = "";
         String id = "";
@@ -80,26 +76,64 @@
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = df.format(new Date());
         
-        try
-        {
-            Statement stmt = con.createStatement();
-            String query_i = "INSERT INTO b_article(title,author,time,content)VALUES('" 
-            	+ title + "','" + user + "','" + time + "','" + content + "');";
-            int rs1 = stmt.executeUpdate(query_i);
-           	
-            String query_q = "SELECT * FROM b_article WHERE time='" + time
-            		+ "' AND author='" + user + "';";
-            ResultSet rs2 = stmt.executeQuery(query_q);
-            rs2.next();
-            id = rs2.getString("id");
-            stmt.close();
-            con.close();
+        if(isMultipart) {
+            FileItemFactory factory = new DiskFileItemFactory();
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            List items = upload.parseRequest(request);
+            for(int i = 0; i < items.size(); i ++){
+                FileItem fi = (FileItem)items.get(i);
+                if(fi.isFormField()) {
+                    if(fi.getFieldName().equals("title_cp")) {
+                        title = fi.getString("utf-8");
+                    }
+                    if(fi.getFieldName().equals("content_cp")) {
+                        content = fi.getString("utf-8");
+                    }
+                }
+                else {
+                    DiskFileItem dfi = (DiskFileItem)fi;
+                    if(!dfi.getName().trim().equals("")) {
+                        //out.print("文件被上传到服务上的实际位置： ");
+                        fName = FilenameUtils.getName(dfi.getName());
+                        fileName = application.getRealPath("/UploadFile")
+                                + System.getProperty("file.separator")
+                                + fName;
+                        //out.print(new File(fileName).getAbsolutePath());
+                        dfi.write(new File(fileName));
+                    }
+                }
+            }
+            try
+            {
+            	Statement stmt = con.createStatement();
+            	if(edit_id == -1){
+                    String query_i = "INSERT INTO b_article(title,author,time,content,filename)VALUES('" 
+                    	+ title + "','" + user + "','" + time + "','" + content + "','"+ fName + "');";
+                    int rs3 = stmt.executeUpdate(query_i);
+            	}
+            	else{
+                    String query_u = "UPDATE b_article set title='" + title + "', author='"
+                    			+ user + "', time='" + time + "', content='" + content
+                    			+ "', filename='" + fName + "' where id = " + edit_id + ";";
+                    int rs4 = stmt.executeUpdate(query_u);
+            	}
+               
+               	
+                String query_q = "SELECT * FROM b_article WHERE time='" + time
+                		+ "' AND author='" + user + "';";
+                ResultSet rs2 = stmt.executeQuery(query_q);
+                rs2.next();
+                id = rs2.getString("id");
+                stmt.close();
+                con.close();
+            }
+            catch(Exception e)
+            {
+                msg2 = e.getMessage();
+                out.print(msg2);
+            }
         }
-        catch(Exception e)
-        {
-            msg2 = e.getMessage();
-            out.print(msg2);
-        }
+        
         response.sendRedirect("Show.jsp?id="+id);
     }
 %>
@@ -298,14 +332,21 @@
            	<input name="imgfile" id="imgfile" type="file">
             <div class="editor" id="richedit" contenteditable="true">
             	<%=edit_content%>
-            </div><br>
+            </div>
 	    </div>
-		<form name="write" action="Write.jsp" method="post">
+	    <%
+	    	String postlink = "Write.jsp";
+	    	if(edit_id != -1){
+	    		postlink = postlink + "?id=" + edit_id;
+	    	}
+	    %>
+		<form name="write" action="<%=postlink%>" method="post" enctype="multipart/form-data">
             <div>
-            	<input name="title" id="title_cp" type="text">
-            	<textarea name="content" id="content"></textarea>
+            	<input name="title_cp" id="title_cp" type="text">
+            	<textarea name="content_cp" id="content_cp"></textarea>
+            	<p>文件上传：<input name="upfile" id="upfile" type="file"></p>
                 <p id="btn">
-                	<input name="submit" id="submit" type="submit" value="发布博客" alt="发布博客" >
+                	<input name="submit" id="submit" type="submit" value="发布博客" title="发布博客">
                 </p>
             </div>
         </form>
@@ -325,7 +366,7 @@
 		  else{
 			  document.getElementById("title_cp").value = document.getElementById("title").value
 			  var o = document.getElementById("richedit").innerHTML;
-			  document.getElementById("content").innerHTML = o;
+			  document.getElementById("content_cp").innerHTML = o;
 		  }
 	}
 	

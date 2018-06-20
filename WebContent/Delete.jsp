@@ -6,6 +6,7 @@
 <%
 	String user = (String)session.getAttribute("user");
 	String msg = "";
+	String filename = "";
 	if(user == null) {
 	    response.sendRedirect("Login.jsp");
 	}
@@ -26,6 +27,20 @@
 	    try
 	    {
 	    	Statement stmt = con.createStatement();
+	    	String query_f = "SELECT * FROM b_article WHERE id=" + id + ";";
+	        ResultSet rs = stmt.executeQuery(query_f);
+	        rs.next();
+	        filename = rs.getString("filename");
+	        
+	        if(filename != null && filename != ""){
+	        	String path =  application.getRealPath("/UploadFile");
+	        	String url = path + System.getProperty("file.separator") + filename;
+	        	File f = new File(url);
+	        	if(f.exists()){
+	        		f.delete();
+	        	}
+	        }
+	        
 	        String query = "DELETE FROM b_article WHERE id=" + id + ";";
 	        int rs1 = stmt.executeUpdate(query);
 
