@@ -4,9 +4,12 @@
 <%@ page import="java.util.Date" %>
 <%request.setCharacterEncoding("utf-8");%>
 <%
-String user = (String)session.getAttribute("user");
+	String user = (String)session.getAttribute("user");
 	if(user == null) {
 	    response.sendRedirect("Login.jsp");
+	}
+	if(request.getParameter("id") == null || request.getParameter("id") == ""){
+		response.sendRedirect("index.jsp");
 	}
     if(request.getParameter("submit") != null) {
     	
@@ -348,8 +351,11 @@ String user = (String)session.getAttribute("user");
 		document.execCommand("insertorderedlist");
 	}
 	function addlink(){
-		var l = prompt("请输入指向的链接。","");
+		var l = prompt("请输入指向的网址链接。","");
 		if(l != null && l != ""){
+			if(l.startsWith("http://") == false){
+				l = "http://" + l;
+			}
 			document.execCommand("createlink", false, l);
 		}
 	}

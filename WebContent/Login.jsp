@@ -47,6 +47,7 @@
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="Image/Blog_64px.png" />
     <title>Login</title>
     <style type="text/css">
         *{font-family:宋体}

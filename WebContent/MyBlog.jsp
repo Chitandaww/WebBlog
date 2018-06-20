@@ -2,7 +2,10 @@
          contentType="text/html; charset=utf-8"%>
 <%request.setCharacterEncoding("utf-8");%>
 <%
-    String user = (String)session.getAttribute("user");   
+    String user = (String)session.getAttribute("user");  
+	if(user == null) {
+	    response.sendRedirect("Login.jsp");
+	}
     String msg = "";
 	String[] id = new String[5];
 	String[] time = new String[5];
@@ -261,7 +264,7 @@
         			out.write("<h3>" + title[i] + "</h3>");
         			
         			out.write("<ul><div id='content'>" + content[i] + "</div>" 
-        				+"<a href='#' class='delete'>删除</a>"+"<a href='#' class='write'>编辑</a>"+"<a title='/' href='Show.jsp?id=" + id[i] 
+        				+"<a href='#' class='delete'>删除</a>"+"<a href='Write.jsp?id="+ id[i] + "' class='write'>编辑</a>"+"<a title='/' href='Show.jsp?id=" + id[i] 
         				+ "' target='_blank' class='readmore'>阅读全文>></a></ul>");
         			
         			out.write("<p class='dateview'><span>" + time[i]
